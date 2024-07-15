@@ -30,7 +30,7 @@ public class Appli extends Application {
 
         view.addSliderListener(model);
 
-        primaryStage.setMinHeight(400);
+        primaryStage.setMinHeight(480);
         primaryStage.setMinWidth(310);
 
         primaryStage.setTitle("Sudoku");
@@ -39,6 +39,8 @@ public class Appli extends Application {
         primaryStage.show();
 
         control.start();
+
+
     }
     public static void main(String[] args) {
         launch(args);

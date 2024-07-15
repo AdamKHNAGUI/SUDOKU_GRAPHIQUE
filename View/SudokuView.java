@@ -4,7 +4,11 @@ import Control.CellControl;
 
 import Control.DifficultyControl;
 import Model.SudokuModel;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 import javafx.scene.Scene;
@@ -16,6 +20,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import static Model.SudokuModel.*;
 
@@ -40,12 +45,20 @@ public class SudokuView extends Stage {
 
     Label cell;
     private VBox root;
+
+    public static Timeline timeline;
+    private static Label timerLabel;
+    private static int secondsElapsed;
     public SudokuView(){
         initWidgets();
     }
 
 
     public void initWidgets() {
+        timerLabel = new Label("0:00");
+        VBox time = new VBox(timerLabel);
+        time.setAlignment(Pos.CENTER);
+        timerLabel.setStyle("-fx-font-size: 36px;");
 
         root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -62,6 +75,7 @@ public class SudokuView extends Stage {
         grid.setAlignment(Pos.CENTER);
         grid.setMaxWidth(280);
         grid.setMinWidth(280);
+        grid.setStyle("-fx-font-size: 16px;");
 
         Label label = new Label("Chiffre :");
         text = new TextField();
@@ -78,9 +92,34 @@ public class SudokuView extends Stage {
 
 
         hBox.getChildren().addAll(label, text, btn);
-        root.getChildren().addAll(difficulty,grid, hBox);
+        root.getChildren().addAll(time,difficulty,grid, hBox);
     }
 
+    public static void timer() {
+        if (timeline != null) {
+            timeline.stop();
+        }
+        secondsElapsed = 0;
+        updateTimerLabel();
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            secondsElapsed++;
+            updateTimerLabel();
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    public static void stopTimer() {
+        if (timeline != null) {
+            timeline.stop();
+        }
+    }
+    private static void updateTimerLabel() {
+        int minutes = secondsElapsed / 60;
+        int seconds = secondsElapsed % 60;
+        timerLabel.setText(String.format("%d:%02d", minutes, seconds));
+        System.out.println(minutes + ":" + seconds);
+    }
     public int getSliderValue(){
         return (int) difficulty.getValue();
     }

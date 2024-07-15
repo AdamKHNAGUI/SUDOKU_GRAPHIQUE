@@ -45,9 +45,6 @@ public class FigureControl implements EventHandler<ActionEvent> {
                 setCell(lastSelectedCell, figure);
                 view.updateBoard(model);
 
-                if (correctBoard(board)) {
-                    System.out.println("Bien joué :D");
-                }
             } else {
                 throw new IllegalArgumentException("Cette case ne peut pas accueillir un nouveau chiffre");
             }

@@ -4,6 +4,7 @@ import java.util.*;
 
 import static Control.SudokuControl.convertCoordonnate;
 import static View.SudokuView.*;
+import View.SudokuView;
 
 public class SudokuModel {
 
@@ -20,10 +21,12 @@ public class SudokuModel {
     public static int[] coords = new int[]{0,0,0};
 
     private static final Random random = new Random();
+    public static boolean win = false;
 
     public static int[] lastSelectedCell = new int[]{0,0,0};
 
     public static void initBoard(int difficulty) {
+        SudokuView.timer();
         initCoords = new ArrayList<>();
         int[][] grid = new int[SIZE][SIZE];
         fillGrid(grid);
@@ -39,7 +42,7 @@ public class SudokuModel {
     }
 
     private static boolean fillGrid(int[][] grid) {
-        List<Integer> numbers = Arrays.asList(1,2, 3, 4, 5, 6, 7, 8, 9);
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -199,6 +202,8 @@ public class SudokuModel {
             }
         }
         System.out.println("Win");
+        win = true;
+        stopTimer();
         return true;
     }
 
